@@ -3,9 +3,12 @@ package com.warleydev.warleycatalog.services;
 import com.warleydev.warleycatalog.dto.CategoryDTO;
 import com.warleydev.warleycatalog.entities.Category;
 import com.warleydev.warleycatalog.repositories.CategoryRepository;
+import com.warleydev.warleycatalog.services.exceptions.DatabaseException;
 import com.warleydev.warleycatalog.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +51,19 @@ public class CategoryService {
         catch (EntityNotFoundException e){
             throw new ResourceNotFoundException("Id "+id+" não encontrado!");
         }
+    }
 
+    public void delete(Long id){
+        try{
+            if (repository.existsById(id)){
+                repository.deleteById(id);
+            }
+            else{
+                throw new ResourceNotFoundException("Id " + id + "não encontrado!");
+            }
+        }
+        catch (DataIntegrityViolationException e){
+            throw new DatabaseException("Violação de integridade, esta categoria não pode ser deletada!");
+        }
     }
 }
