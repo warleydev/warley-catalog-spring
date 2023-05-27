@@ -1,6 +1,7 @@
 package com.warleydev.warleycatalog.services;
 
 import com.warleydev.warleycatalog.dto.CategoryDTO;
+import com.warleydev.warleycatalog.dto.ProductDTO;
 import com.warleydev.warleycatalog.entities.Category;
 import com.warleydev.warleycatalog.repositories.CategoryRepository;
 import com.warleydev.warleycatalog.services.exceptions.DatabaseException;
@@ -26,9 +27,8 @@ public class CategoryService {
     }
 
     @Transactional(readOnly = true)
-    public CategoryDTO findById(Long id){
-        Category cat = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
-        return new CategoryDTO(cat);
+    public Category findById(Long id){
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
     }
 
     @Transactional(readOnly = false)
@@ -64,4 +64,5 @@ public class CategoryService {
             throw new DatabaseException("Violação de integridade, esta categoria não pode ser deletada!");
         }
     }
+
 }
