@@ -48,18 +48,17 @@ public class ProductServiceTest {
 
 
     @Test
-    void deveBuscarProductPorId(){
+    void findByIdShouldReturnWithSuccessWhenIdExists(){
         when(productRepository.findById(existingId)).thenReturn(Optional.of(product));
 
         Product p = service.findById(existingId);
         assertEquals(product, p);
-        verify(productRepository).findById(product.getId());
-        verifyNoMoreInteractions(productRepository);
-
+        verify(productRepository, times(1)).findById(product.getId());
     }
 
     @Test
-    void findByIdDeveRetornarErroAoBuscarProductPorIdInvalido(){
+
+    void findByIdShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists(){
         when(productRepository.findById(nonExistingId)).thenThrow(new ResourceNotFoundException("Produto não encontrado, Id: "+ nonExistingId));
         final ResourceNotFoundException e = assertThrows(ResourceNotFoundException.class, () -> {
            service.findById(nonExistingId);
@@ -67,7 +66,7 @@ public class ProductServiceTest {
 
         assertEquals("Produto não encontrado, Id: "+nonExistingId, e.getMessage());
         assertEquals(ResourceNotFoundException.class, e.getClass());
-
+        verify(productRepository, times(1)).findById(nonExistingId);
     }
 
     @Test
@@ -87,6 +86,7 @@ public class ProductServiceTest {
         catch (ResourceNotFoundException e){
             assertEquals(ResourceNotFoundException.class, e.getClass());
             assertEquals("Id inexistente!", e.getMessage());
+            verify(productRepository, times(0)).deleteById(existingId);
         }
     }
 }
