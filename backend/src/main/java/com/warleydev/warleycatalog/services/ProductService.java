@@ -10,7 +10,6 @@ import com.warleydev.warleycatalog.services.utils.ListUtils;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class ProductService {
@@ -37,9 +35,8 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public ProductDTO findById(Long id) {
-        Product product = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado!"));
-        return new ProductDTO(product, product.getCategories());
+    public Product findById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado!"));
     }
 
     @Transactional(readOnly = false)
