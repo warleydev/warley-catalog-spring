@@ -30,6 +30,7 @@ public class UserDTO implements Serializable {
         firstName = user.getFirstName();
         lastName = user.getLastName();
         email = user.getEmail();
+        user.getRoles().forEach(role -> this.getRoles().add(new RoleDTO(role    )));
     }
 
     public Long getId() {

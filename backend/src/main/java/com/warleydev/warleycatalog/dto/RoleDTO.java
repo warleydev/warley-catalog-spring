@@ -1,5 +1,7 @@
 package com.warleydev.warleycatalog.dto;
 
+import com.warleydev.warleycatalog.entities.Role;
+
 import java.io.Serializable;
 
 public class RoleDTO implements Serializable {
@@ -8,6 +10,11 @@ public class RoleDTO implements Serializable {
     private String authority;
 
     public RoleDTO(){
+    }
+
+    public RoleDTO(Role role){
+        id = role.getId();
+        authority = role.getAuthority();
     }
 
     public RoleDTO(Long id, String authority) {
