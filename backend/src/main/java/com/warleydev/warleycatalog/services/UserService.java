@@ -8,6 +8,7 @@ import com.warleydev.warleycatalog.entities.User;
 import com.warleydev.warleycatalog.repositories.RoleRepository;
 import com.warleydev.warleycatalog.repositories.UserRepository;
 import com.warleydev.warleycatalog.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,6 +47,19 @@ public class UserService {
         entity = repository.save(entity);
         return new UserDTO(entity);
     }
+
+    @Transactional(readOnly = false)
+    public UserDTO update(Long id, UserDTO dto){
+        try{
+            User entity = repository.getReferenceById(id);
+            copyDtoToEntity(dto, entity);
+            entity = repository.save(entity);
+            return new UserDTO(entity);
+        }catch (EntityNotFoundException e){
+            throw new ResourceNotFoundException("Usuário não encontrado. Id: "+ id);
+        }
+    }
+
 
     public void copyDtoToEntity(UserDTO dto, User entity) {
         entity.setFirstName(dto.getFirstName());

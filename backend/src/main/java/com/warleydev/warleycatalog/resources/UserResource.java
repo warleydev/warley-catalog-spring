@@ -39,4 +39,9 @@ public class UserResource {
         return ResponseEntity.created(uri).body(newDto);
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO dto){
+        dto = service.update(id, dto);
+        return ResponseEntity.ok().body(dto);
+    }
 }
