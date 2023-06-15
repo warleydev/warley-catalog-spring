@@ -1,4 +1,4 @@
-package com.warleydev.warleycatalog.resources.exceptions;
+package com.warleydev.warleycatalog.controllers.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

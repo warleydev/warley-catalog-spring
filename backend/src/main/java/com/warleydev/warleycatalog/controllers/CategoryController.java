@@ -1,4 +1,4 @@
-package com.warleydev.warleycatalog.resources;
+package com.warleydev.warleycatalog.controllers;
 
 import com.warleydev.warleycatalog.dto.CategoryDTO;
 import com.warleydev.warleycatalog.entities.Category;
@@ -14,7 +14,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping(value="/categories")
-public class CategoryResource {
+public class CategoryController {
 
     @Autowired
     private CategoryService service;

@@ -1,14 +1,11 @@
-package com.warleydev.warleycatalog.resources;
+package com.warleydev.warleycatalog.controllers;
 
-import com.warleydev.warleycatalog.dto.CategoryDTO;
 import com.warleydev.warleycatalog.dto.ProductDTO;
 import com.warleydev.warleycatalog.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -17,7 +14,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/products")
-public class ProductResource {
+public class ProductController {
     @Autowired
     private ProductService service;
 
@@ -42,10 +39,10 @@ public class ProductResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> update(@Valid @PathVariable Long id, @RequestBody ProductDTO dto){
+    public ResponseEntity<ProductDTO> update(@Valid @PathVariable Long id, @RequestBody ProductDTO dto){
         dto.setId(id);
         dto = service.update(id, dto);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -1,4 +1,4 @@
-package com.warleydev.warleycatalog.resources;
+package com.warleydev.warleycatalog.controllers;
 
 import com.warleydev.warleycatalog.dto.UserDTO;
 import com.warleydev.warleycatalog.dto.UserInsertDTO;
@@ -15,7 +15,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/users")
-public class UserResource {
+public class UserController {
 
     @Autowired
     private UserService service;
