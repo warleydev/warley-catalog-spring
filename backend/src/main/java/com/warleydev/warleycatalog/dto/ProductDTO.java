@@ -2,6 +2,9 @@ package com.warleydev.warleycatalog.dto;
 
 import com.warleydev.warleycatalog.entities.Category;
 import com.warleydev.warleycatalog.entities.Product;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -15,10 +18,18 @@ public class ProductDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    @NotBlank(message = "Campo obrigatório!")
     private String name;
+
+    @NotBlank(message = "Campo obrigatório!")
     private String description;
+
+    @Positive(message = "Insira um valor válido")
     private Double price;
     private String imgUrl;
+
+    @PastOrPresent
     private Instant date;
 
     private List<Long> idCategories = new ArrayList<>();

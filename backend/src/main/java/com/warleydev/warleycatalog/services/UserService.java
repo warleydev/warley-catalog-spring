@@ -1,5 +1,6 @@
 package com.warleydev.warleycatalog.services;
 
+import com.warleydev.warleycatalog.dto.CategoryDTO;
 import com.warleydev.warleycatalog.dto.RoleDTO;
 import com.warleydev.warleycatalog.dto.UserDTO;
 import com.warleydev.warleycatalog.dto.UserInsertDTO;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @Service
 public class UserService {
