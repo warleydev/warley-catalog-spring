@@ -3,6 +3,7 @@ package com.warleydev.warleycatalog.services;
 import com.warleydev.warleycatalog.dto.RoleDTO;
 import com.warleydev.warleycatalog.dto.UserDTO;
 import com.warleydev.warleycatalog.dto.UserInsertDTO;
+import com.warleydev.warleycatalog.dto.UserUpdateDTO;
 import com.warleydev.warleycatalog.entities.Role;
 import com.warleydev.warleycatalog.entities.User;
 import com.warleydev.warleycatalog.repositories.RoleRepository;
@@ -48,7 +49,7 @@ public class UserService {
         return new UserDTO(entity);
     }
 
-    public UserDTO update(Long id, UserInsertDTO dto) {
+    public UserDTO update(Long id, UserUpdateDTO dto) {
         try {
             User entity = repository.findById(id).get();
             copyDtoToEntity(dto, entity);

@@ -2,6 +2,7 @@ package com.warleydev.warleycatalog.controllers;
 
 import com.warleydev.warleycatalog.dto.UserDTO;
 import com.warleydev.warleycatalog.dto.UserInsertDTO;
+import com.warleydev.warleycatalog.dto.UserUpdateDTO;
 import com.warleydev.warleycatalog.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,9 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@Valid @PathVariable Long id, @RequestBody UserInsertDTO dto){
+    public ResponseEntity<UserDTO> update(@Valid @PathVariable Long id, @RequestBody UserUpdateDTO dto){
         UserDTO newDto = service.update(id, dto);
-        return ResponseEntity.ok().body(dto);
+        return ResponseEntity.ok().body(newDto);
     }
 
     @DeleteMapping(value = "/{id}")

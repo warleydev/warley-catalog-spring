@@ -3,6 +3,7 @@ package com.warleydev.warleycatalog.controllers.exceptions;
 import com.warleydev.warleycatalog.services.exceptions.DatabaseException;
 import com.warleydev.warleycatalog.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -36,18 +37,15 @@ public class ControllerExceptionHandler {
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(err.getStatus()).body(err);
     }
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationError> validation(MethodArgumentNotValidException e, HttpServletRequest request){
-        ValidationError err = new ValidationError();
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<StandardError> validation(DataIntegrityViolationException e, HttpServletRequest request){
+        StandardError err = new StandardError();
         err.setTimestamp(Instant.now());
         err.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
         err.setError("Erro de validação!");
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
-
-        for (FieldError f : e.getBindingResult().getFieldErrors()){
-            err.addError(f.getField(), f.getDefaultMessage());
-        }
         return ResponseEntity.status(err.getStatus()).body(err);
     }
+
 }
