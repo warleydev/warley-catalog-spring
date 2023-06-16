@@ -1,6 +1,5 @@
 package com.warleydev.warleycatalog.services;
 
-import com.warleydev.warleycatalog.dto.CategoryDTO;
 import com.warleydev.warleycatalog.dto.RoleDTO;
 import com.warleydev.warleycatalog.dto.UserDTO;
 import com.warleydev.warleycatalog.dto.UserInsertDTO;
@@ -8,18 +7,14 @@ import com.warleydev.warleycatalog.entities.Role;
 import com.warleydev.warleycatalog.entities.User;
 import com.warleydev.warleycatalog.repositories.RoleRepository;
 import com.warleydev.warleycatalog.repositories.UserRepository;
-import com.warleydev.warleycatalog.services.exceptions.DatabaseException;
 import com.warleydev.warleycatalog.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @Service
 public class UserService {
@@ -53,9 +48,9 @@ public class UserService {
         return new UserDTO(entity);
     }
 
-    public UserDTO update(Long id, UserDTO dto) {
+    public UserDTO update(Long id, UserInsertDTO dto) {
         try {
-            User entity = repository.getReferenceById(id);
+            User entity = repository.findById(id).get();
             copyDtoToEntity(dto, entity);
             entity = repository.save(entity);
             return new UserDTO(entity);
@@ -84,4 +79,3 @@ public class UserService {
         }
     }
 }
-
