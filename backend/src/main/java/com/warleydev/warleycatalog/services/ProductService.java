@@ -6,6 +6,7 @@ import com.warleydev.warleycatalog.entities.Product;
 import com.warleydev.warleycatalog.repositories.ProductRepository;
 import com.warleydev.warleycatalog.services.exceptions.DatabaseException;
 import com.warleydev.warleycatalog.services.exceptions.ResourceNotFoundException;
+import com.warleydev.warleycatalog.services.exceptions.UncategorizedException;
 import com.warleydev.warleycatalog.services.utils.ListUtils;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class ProductService {
             dto = new ProductDTO(repository.save(entity));
             return dto;
         } else {
-            throw new ResourceNotFoundException("Um produto precisa ter ao menos 1 categoria!");
+            throw new UncategorizedException("Um produto precisa ter ao menos 1 categoria!");
         }
     }
 

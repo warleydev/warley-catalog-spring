@@ -10,6 +10,8 @@ import com.warleydev.warleycatalog.repositories.RoleRepository;
 import com.warleydev.warleycatalog.repositories.UserRepository;
 import com.warleydev.warleycatalog.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
+
+    private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -79,4 +83,5 @@ public class UserService {
             entity.getRoles().add(role);
         }
     }
+
 }

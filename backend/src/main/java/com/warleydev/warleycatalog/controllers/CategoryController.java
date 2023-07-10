@@ -3,6 +3,7 @@ package com.warleydev.warleycatalog.controllers;
 import com.warleydev.warleycatalog.dto.CategoryDTO;
 import com.warleydev.warleycatalog.entities.Category;
 import com.warleydev.warleycatalog.services.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +34,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDTO> insert(@RequestBody CategoryDTO dto){
+    public ResponseEntity<CategoryDTO> insert(@Valid @RequestBody CategoryDTO dto){
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(dto.getId()).toUri();
@@ -41,7 +42,7 @@ public class CategoryController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody CategoryDTO dto){
+    public ResponseEntity<Void> update(@PathVariable Long id, @Valid @RequestBody CategoryDTO dto){
         dto.setId(id);
         dto = service.update(id, dto);
         return ResponseEntity.noContent().build();

@@ -2,6 +2,7 @@ package com.warleydev.warleycatalog.controllers.exceptions;
 
 import com.warleydev.warleycatalog.services.exceptions.DatabaseException;
 import com.warleydev.warleycatalog.services.exceptions.ResourceNotFoundException;
+import com.warleydev.warleycatalog.services.exceptions.UncategorizedException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -38,13 +39,39 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(err.getStatus()).body(err);
     }
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<StandardError> validation(DataIntegrityViolationException e, HttpServletRequest request){
-        StandardError err = new StandardError();
+    public ResponseEntity<ValidationError> validation(DataIntegrityViolationException e, HttpServletRequest request){
+        ValidationError err = new ValidationError();
         err.setTimestamp(Instant.now());
         err.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
         err.setError("Erro de validação!");
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
+        return ResponseEntity.status(err.getStatus()).body(err);
+    }
+
+    @ExceptionHandler(UncategorizedException.class)
+    public ResponseEntity<StandardError> uncategorized(UncategorizedException e, HttpServletRequest request){
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(HttpStatus.BAD_REQUEST.value());
+        err.setError("Erro nas categorias");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(err.getStatus()).body(err);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ValidationError> validation(MethodArgumentNotValidException e, HttpServletRequest request){
+        ValidationError err = new ValidationError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
+        err.setError("Erro de validação!");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
+
+        for (FieldError f : e.getBindingResult().getFieldErrors()){
+            err.addError(f.getField(), f.getDefaultMessage());
+        }
         return ResponseEntity.status(err.getStatus()).body(err);
     }
 

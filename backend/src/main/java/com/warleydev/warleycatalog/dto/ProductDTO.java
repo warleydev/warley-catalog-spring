@@ -3,6 +3,7 @@ package com.warleydev.warleycatalog.dto;
 import com.warleydev.warleycatalog.entities.Category;
 import com.warleydev.warleycatalog.entities.Product;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 
@@ -26,6 +27,7 @@ public class ProductDTO implements Serializable {
     private String description;
 
     @Positive(message = "O valor precisa ser positivo!")
+    @NotNull(message = "Este campo é obrigatório")
     private Double price;
     private String imgUrl;
 
