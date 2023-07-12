@@ -1,6 +1,9 @@
 package com.warleydev.warleycatalog.controllers;
 
+import com.warleydev.warleycatalog.config.TokenService;
 import com.warleydev.warleycatalog.dto.LoginDTO;
+import com.warleydev.warleycatalog.dto.TokenDTO;
+import com.warleydev.warleycatalog.entities.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-
+    @Autowired
+    private TokenService tokenService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -24,7 +28,10 @@ public class AuthenticationController {
     public ResponseEntity login (@RequestBody @Valid LoginDTO dto){
         var usernamePassword = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
         var auth = authenticationManager.authenticate(usernamePassword);
-        return ResponseEntity.ok().build();
+
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new TokenDTO(token));
     }
 
 }

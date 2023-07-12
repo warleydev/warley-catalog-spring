@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig{
 
+    @Autowired
+    private SecurityFilter securityFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -27,6 +29,7 @@ public class WebSecurityConfig{
                 .authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.POST,
                         "/categories","/users","/products").hasRole("ADMIN")
                         .anyRequest().permitAll())
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
